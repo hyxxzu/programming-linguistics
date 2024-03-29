@@ -1,31 +1,137 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34622.214
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mini game poject", "mini game poject.vcxproj", "{39EED029-B329-40A0-972A-EC0B63E242F2}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Debug|x64.ActiveCfg = Debug|x64
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Debug|x64.Build.0 = Debug|x64
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Debug|x86.ActiveCfg = Debug|Win32
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Debug|x86.Build.0 = Debug|Win32
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Release|x64.ActiveCfg = Release|x64
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Release|x64.Build.0 = Release|x64
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Release|x86.ActiveCfg = Release|Win32
-		{39EED029-B329-40A0-972A-EC0B63E242F2}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2F0A1D3D-353A-4910-B5BA-CAF1D84B6FD3}
-	EndGlobalSection
-EndGlobal
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+void main()
+{
+	int p1_m, p1_n;
+	int p2_m, p2_n;
+	int game_end = 0;
+	int finish_turn = 0;
+
+	char board[3][3] = {
+		{'.','.','.'},
+		{'.','.','.'},
+		{'.','.','.'}
+	};
+
+	printf("게임 시작\n");
+
+	//게임판 출력
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			printf("%2c", board[i][j]);
+		}
+		printf("\n");
+	}
+	
+	for (int k = 0; k < 5; k++) {
+		
+		//플레이어1의 착수
+		printf("\n플레이어 1\n");
+		printf("행 : ");
+		scanf("%d", &p1_m);
+		printf("열 : ");
+		scanf("%d", &p1_n);
+		printf("\n");
+
+		//예외처리
+		if (board[p1_m-1][p1_n-1] != '.') {
+			printf("잘못된 위치를 지정하였습니다.\n");
+			printf("게임을 다시 시작하세요.\n\n");
+			break;
+		}
+
+		else {
+			board[p1_m-1][p1_n-1] = 'O';
+			finish_turn += 1;
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				printf("%2c", board[i][j]);
+			}
+			printf("\n");
+		}
+
+		//승리 판별
+		//행 확인
+		for (int m = 0; m < 3; m++) {
+			if (board[m][0] == board[m][1] && board[m][0] == board[m][2] && board[m][0] != '.') {
+				game_end = 1;
+			}
+		}
+
+		//열 확인
+		for (int n = 0; n < 3; n++) {
+			if (board[0][n] == board[1][n] && board[0][n] == board[2][n] && board[0][n] != '.') {
+				game_end = 1;
+			}
+		}
+
+		//대각선 확인
+		if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] != '.')
+			|| (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] != '.')) {
+			game_end = 1;
+		}
+		
+		if (game_end == 1) {
+			printf("플레이어1 승리!!");
+			break;
+		}
+
+		if (finish_turn == 5) {
+			printf("무승부입니다.");
+			break;
+		}
+
+		printf("\n플레이어 2\n");
+		printf("행 : ");
+		scanf("%d", &p2_m);
+		printf("열 : ");
+		scanf("%d", &p2_n);
+		printf("\n");
+
+		if (board[p2_m-1][p2_n-1] != '.') {
+			printf("잘못된 위치를 지정하였습니다.\n");
+			printf("게임을 다시 시작하세요.\n\n");
+			break;
+     	}
+
+		else {
+			board[p2_m-1][p2_n-1] = 'X';
+		}
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				printf("%2c", board[i][j]);
+			}
+			printf("\n");
+		}
+
+		//승리 판별
+		//행 확인
+		for (int m = 0; m < 3; m++) {
+			if (board[m][0] == board[m][1] && board[m][0] == board[m][2] && board[m][0] != '.') {
+				game_end = 1;
+			}
+		}
+
+		//열 확인
+		for (int n = 0; n < 3; n++) {
+			if (board[0][n] == board[1][n] && board[0][n] == board[2][n] && board[0][n] != '.') {
+				game_end = 1;
+			}
+		}
+
+		//대각선 확인
+		if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] != '.')
+			|| (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] != '.')) {
+			game_end = 1;
+		}
+
+		if (game_end == 1) {
+			printf("플레이어2 승리!!");
+			break;
+		}
+	}
+}
