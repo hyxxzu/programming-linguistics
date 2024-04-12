@@ -5,8 +5,8 @@ void main()
 {
 	int p1_m, p1_n;
 	int p2_m, p2_n;
+	int turn = 0;
 	int game_end = 0;
-	int finish_turn = 0;
 
 	char board[3][3] = {
 		{'.','.','.'},
@@ -14,44 +14,63 @@ void main()
 		{'.','.','.'}
 	};
 
-	printf("게임 시작\n");
+	printf("게임 시작\n\n");
 
 	//게임판 출력
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			printf("%2c", board[i][j]);
+	for (int m = 0; m < 3; m++) {
+		for (int n = 0; n < 3; n++) {
+			printf("%2c", board[m][n]);
 		}
 		printf("\n");
 	}
 	
-	for (int k = 0; k < 5; k++) {
+	for (;;) {
 		
-		//플레이어1의 착수
-		printf("\n플레이어 1\n");
-		printf("행 : ");
-		scanf("%d", &p1_m);
-		printf("열 : ");
-		scanf("%d", &p1_n);
-		printf("\n");
+		for (;;)
+		{
+			//플레이어1의 착수
 
-		//예외처리
-		if (board[p1_m-1][p1_n-1] != '.') {
-			printf("잘못된 위치를 지정하였습니다.\n");
-			printf("게임을 다시 시작하세요.\n\n");
-			break;
-		}
-
-		else {
-			board[p1_m-1][p1_n-1] = 'O';
-			finish_turn += 1;
-		}
-		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				printf("%2c", board[i][j]);
-			}
+			printf("\n플레이어 1\n");
+			printf("행 : ");
+			scanf("%d", &p1_m);
+			printf("열 : ");
+			scanf("%d", &p1_n);
 			printf("\n");
+
+			//예외처리
+
+			//지정 위치가 비어있지 않은 경우
+			if (board[p1_m - 1][p1_n - 1] != '.') {
+				printf("\n잘못된 위치를 지정하였습니다.\n");
+
+				//게임판 출력
+				for (int m = 0; m < 3; m++) {
+					for (int n = 0; n < 3; n++) {
+						printf("%2c", board[m][n]);
+					}
+					printf("\n");
+				}
+
+			}
+
+			//지정 위치가 비어있는 경우
+			else {
+				board[p1_m - 1][p1_n - 1] = 'O';
+
+				//게임판 출력
+				for (int m = 0; m < 3; m++) {
+					for (int n = 0; n < 3; n++) {
+						printf("%2c", board[m][n]);
+					}
+					printf("\n");
+				}
+				break;
+			}
+
 		}
+
+		//플레이어 1의 턴 수
+		turn += 1;
 
 		//승리 판별
 		//행 확인
@@ -75,38 +94,59 @@ void main()
 		}
 		
 		if (game_end == 1) {
-			printf("플레이어1 승리!!");
+			printf("\n플레이어1 승리!!\n");
 			break;
 		}
 
-		if (finish_turn == 5) {
-			printf("무승부입니다.");
+		//무승부
+		if (turn == 9) {
+			printf("\n무승부입니다.\n");
 			break;
 		}
 
-		printf("\n플레이어 2\n");
-		printf("행 : ");
-		scanf("%d", &p2_m);
-		printf("열 : ");
-		scanf("%d", &p2_n);
-		printf("\n");
-
-		if (board[p2_m-1][p2_n-1] != '.') {
-			printf("잘못된 위치를 지정하였습니다.\n");
-			printf("게임을 다시 시작하세요.\n\n");
-			break;
-     	}
-
-		else {
-			board[p2_m-1][p2_n-1] = 'X';
-		}
-
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				printf("%2c", board[i][j]);
-			}
+		//플레이어2
+		for (;;)
+		{
+			printf("\n플레이어 2\n");
+			printf("행 : ");
+			scanf("%d", &p2_m);
+			printf("열 : ");
+			scanf("%d", &p2_n);
 			printf("\n");
+
+			//예외처리
+
+			//지정 위치가 비어있지 않은 경우
+			if (board[p2_m - 1][p2_n - 1] != '.') 
+			{
+				printf("\n잘못된 위치를 지정하였습니다.\n");
+				//게임판 출력
+				for (int m = 0; m < 3; m++) {
+					for (int n = 0; n < 3; n++) {
+						printf("%2c", board[m][n]);
+					}
+					printf("\n");
+				}
+			}
+
+			//지정 위치가 비어있는 경우
+			else 
+			{
+				board[p2_m - 1][p2_n - 1] = 'X';
+
+				//게임판 출력
+				for (int m = 0; m < 3; m++) {
+					for (int n = 0; n < 3; n++) {
+						printf("%2c", board[m][n]);
+					}
+					printf("\n");
+				}
+				break;
+			}
 		}
+	
+		//플레이어 2의 턴
+		turn += 1;
 
 		//승리 판별
 		//행 확인
@@ -130,7 +170,7 @@ void main()
 		}
 
 		if (game_end == 1) {
-			printf("플레이어2 승리!!");
+			printf("\n플레이어2 승리!!\n");
 			break;
 		}
 	}
